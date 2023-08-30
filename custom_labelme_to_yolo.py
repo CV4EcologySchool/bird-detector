@@ -39,4 +39,55 @@ for json_file in json_files:
     
     image_name = os.path.basename(data["imagePath"])
     image_width = data["imageWidth"]
-    image_height = data["imageHeight
+    image_height = data["imageHeight"]
+    
+    yolo_annotation = []
+    
+    for shape in data["shapes"]:
+        label = preprocess_label(shape["label"])
+        if label in class_mapping:
+            class_id = class_mapping[label]
+        else:
+            # If label is not in class_mapping, skip this annotation
+            continue
+        
+        x_points = [point[0] for point in shape["points"]]
+        y_points = [point[1] for point in shape["points"]]
+        
+        x_min = min(x_points) / image_width
+        x_max = max(x_points) / image_width
+        y_min = min(y_points) / image_height
+        y_max = max(y_points) / image_height
+        
+        width = x_max - x_min
+        height = y_max - y_min
+        
+        x_center = x_min + width / 2
+        y_center = y_min + height / 2
+        
+        yolo_annotation.append(f"{class_id} {x_center:.6f} {y_center:.6f} {width:.6f} {height:.6f}")
+    
+    yolo_annotation_text = "\n".join(yolo_annotation)
+    
+    yolo_annotation_path = os.path.join(yolo_dir, os.path.splitext(image_name)[0] + ".txt")
+    
+    with open(yolo_annotation_path, "w") as f:
+        f.write(yolo_annotation_text)
+
+print("Conversion complete.")
+
+# Find all image files in the melted_data directory with JPG extensions
+image_files = glob.glob(os.path.join(labelme_dir, "*.[jJ][pP][gG]"))
+
+# Copy image files to the new YOLO images folder
+for image_file in image_files:
+    image_name = os.path.basename(image_file)
+    dest_image_path = os.path.join(yolo_images_dir, image_name)
+    shutil.copy(image_file, dest_image_path)
+
+# Count the number of files in the annotations and images directories
+num_annotations = len(os.listdir(yolo_dir))
+num_images = len(os.listdir(yolo_images_dir))
+
+print(f"Number of annotations: {num_annotations}")
+print(f"Number of images: {num_images}")

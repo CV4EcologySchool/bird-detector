@@ -67,7 +67,7 @@ val_destination = os.path.join(destination_dir, 'val')
 os.makedirs(train_destination, exist_ok=True)
 os.makedirs(val_destination, exist_ok=True)
 
-# Move training data
+# Move training data from the default Labelme2YOLO to the format YOLO requires
 train_image_dir = os.path.join(source_dir, 'images', 'train')
 train_label_dir = os.path.join(source_dir, 'labels', 'train')
 for file_name in os.listdir(train_image_dir):

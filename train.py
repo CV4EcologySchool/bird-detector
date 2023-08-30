@@ -2,12 +2,19 @@ from ultralytics import YOLO
 import ultralytics
 from comet_ml import Experiment
 
-# Initialize a CometML experiment
-experiment = Experiment(
-    project_name="your-project-name",
-    workspace="your-workspace",
-    auto_output_logging="native"
-)
+# Check if you should initialize the experiment using a specific API key and project info
+if "api_key" in cfg:
+    experiment = Experiment(
+        api_key=cfg["api_key"],
+        project_name=cfg["project_name"],
+    )
+    experiment.set_name(cfg["experiment_name"])
+else:
+    experiment = Experiment(
+        project_name="your-project-name",
+        workspace="your-workspace",
+        auto_output_logging="native"
+    )
 
 # Load the default config
 cfg = ultralytics.cfg.get_cfg(cfg='default.yaml')

@@ -16,7 +16,7 @@ save_period: -1 # (int) Save checkpoint every x epochs (disabled if < 1)
 cache: False  # (bool) True/ram, disk or False. Use cache for data loading
 device: 4,5  # (int | str | list, optional) device to run on, i.e. cuda device=0 or device=0,1,2,3 or device=cpu
 workers: 8  # (int) number of worker threads for data loading (per RANK if DDP)
-project: bee_cam_yolo_multiclass # (str, optional) project name
+project: bird-detector # (str, optional) project name
 name:  # (str, optional) experiment name, results saved to 'project/name' directory
 exist_ok: False  # (bool) whether to overwrite existing experiment
 pretrained: True  # (bool | str) whether to use a pretrained model (bool) or a model to load weights from (str)
@@ -113,3 +113,10 @@ cfg:  # (str, optional) for overriding defaults.yaml
 
 # Tracker settings ------------------------------------------------------------------------------------------------------
 tracker: botsort.yaml  # (str) tracker type, choices=[botsort.yaml, bytetrack.yaml]
+
+# CometML
+# Comet ML experiment saving details
+experiment_name: bird_detector_round1
+# add the scheduler step
+project_name: cagedbird-classifier
+api_key: 6D79SKeAIuSjteySwQwqx96nq

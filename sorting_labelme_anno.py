@@ -2,8 +2,7 @@ import os
 import shutil
 
 # # removing the images that don't have a json file
-
-# main_folder_path = '/home/sicily/bird-detector/bird-detect-copy'
+# main_folder_path = '/home/sicily/bird-detector/bird-detect-copy2/yolo_data'
 
 # for folder_name in os.listdir(main_folder_path):
 #     folder_path = os.path.join(main_folder_path, folder_name)
@@ -18,7 +17,7 @@ import shutil
 #                     print(f"Deleted: {image_path}")
 
 # # rename the jsons and jpgs based on the folder name
-# main_folder_path = '/home/sicily/bird-detector/bird-detect-copy/yolo_data'
+# main_folder_path = '/home/sicily/bird-detector/bird-detect-copy2/yolo_data'
 
 # for folder_name in os.listdir(main_folder_path):
 #     folder_path = os.path.join(main_folder_path, folder_name)
@@ -36,8 +35,8 @@ import shutil
 #             index += 1
 
 # Copying all the jsons and images from each subfolder into a whole new folder with all jsons and jpgs
-main_folder_path = '/home/sicily/bird-detector/bird-detect-copy/yolo_data'
-output_folder_path = '/home/sicily/bird-detector/bird-detect-copy/melted_data'
+main_folder_path = '/home/sicily/bird-detector/bird-detect-copy2/yolo_data'
+output_folder_path = '/home/sicily/bird-detector/bird-detect-copy2/melted_data'
 
 
 for folder_name in os.listdir(main_folder_path):
@@ -54,41 +53,41 @@ for folder_name in os.listdir(main_folder_path):
                 else:
                     print(f"File already exists: {destination_path}")
 
-# now we have run LabelMe to JSON
-import os
-import shutil
+# # now we have run LabelMe to JSON
+# import os
+# import shutil
 
-source_dir = '/home/username/labelme_json_dir/YOLODataset'
-destination_dir = '/home/username/combined_dataset'
+# source_dir = '/home/username/labelme_json_dir/YOLODataset'
+# destination_dir = '/home/username/combined_dataset'
 
-# Create destination directories if they don't exist
-train_destination = os.path.join(destination_dir, 'train')
-val_destination = os.path.join(destination_dir, 'val')
-os.makedirs(train_destination, exist_ok=True)
-os.makedirs(val_destination, exist_ok=True)
+# # Create destination directories if they don't exist
+# train_destination = os.path.join(destination_dir, 'train')
+# val_destination = os.path.join(destination_dir, 'val')
+# os.makedirs(train_destination, exist_ok=True)
+# os.makedirs(val_destination, exist_ok=True)
 
-# Move training data from the default Labelme2YOLO to the format YOLO requires
-train_image_dir = os.path.join(source_dir, 'images', 'train')
-train_label_dir = os.path.join(source_dir, 'labels', 'train')
-for file_name in os.listdir(train_image_dir):
-    image_path = os.path.join(train_image_dir, file_name)
-    label_path = os.path.join(train_label_dir, file_name.replace('.jpg', '.json'))
+# # Move training data from the default Labelme2YOLO to the format YOLO requires
+# train_image_dir = os.path.join(source_dir, 'images', 'train')
+# train_label_dir = os.path.join(source_dir, 'labels', 'train')
+# for file_name in os.listdir(train_image_dir):
+#     image_path = os.path.join(train_image_dir, file_name)
+#     label_path = os.path.join(train_label_dir, file_name.replace('.jpg', '.json'))
 
-    if os.path.exists(label_path):
-        shutil.copy2(image_path, os.path.join(train_destination, file_name))
-        shutil.copy2(label_path, os.path.join(train_destination, file_name.replace('.jpg', '.json')))
-        print(f"Moved training data: {file_name}")
+#     if os.path.exists(label_path):
+#         shutil.copy2(image_path, os.path.join(train_destination, file_name))
+#         shutil.copy2(label_path, os.path.join(train_destination, file_name.replace('.jpg', '.json')))
+#         print(f"Moved training data: {file_name}")
 
-# Move validation data
-val_image_dir = os.path.join(source_dir, 'images', 'val')
-val_label_dir = os.path.join(source_dir, 'labels', 'val')
-for file_name in os.listdir(val_image_dir):
-    image_path = os.path.join(val_image_dir, file_name)
-    label_path = os.path.join(val_label_dir, file_name.replace('.jpg', '.json'))
+# # Move validation data
+# val_image_dir = os.path.join(source_dir, 'images', 'val')
+# val_label_dir = os.path.join(source_dir, 'labels', 'val')
+# for file_name in os.listdir(val_image_dir):
+#     image_path = os.path.join(val_image_dir, file_name)
+#     label_path = os.path.join(val_label_dir, file_name.replace('.jpg', '.json'))
 
-    if os.path.exists(label_path):
-        shutil.copy2(image_path, os.path.join(val_destination, file_name))
-        shutil.copy2(label_path, os.path.join(val_destination, file_name.replace('.jpg', '.json')))
-        print(f"Moved validation data: {file_name}")
+#     if os.path.exists(label_path):
+#         shutil.copy2(image_path, os.path.join(val_destination, file_name))
+#         shutil.copy2(label_path, os.path.join(val_destination, file_name.replace('.jpg', '.json')))
+#         print(f"Moved validation data: {file_name}")
 
 

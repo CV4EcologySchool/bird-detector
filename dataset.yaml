@@ -1,0 +1,8 @@
+path: /home/sicily/bird-detector/data/datasets/bird-detect  # dataset root dir
+train: train 
+val: val  
+test: 
+nc: 1
+
+names:
+  0: bird

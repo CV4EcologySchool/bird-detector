@@ -20,10 +20,14 @@ import json
 
 # rename the jsons and the images
 main_folder_path = '/home/sicily/bird-detector/bird-detect3/yolo_data'
+new_folder_path = '/home/sicily/bird-detector/bird-detect3/yolo_copy_try'
 
 for folder_name in os.listdir(main_folder_path):
     folder_path = os.path.join(main_folder_path, folder_name)
-    
+    new_folder_path = os.path.join (new_folder_path, folder_name)
+
+    os.mkdir (new_folder_path)
+
     if os.path.isdir(folder_path):
         image_index = 1
         json_index = 1
@@ -37,9 +41,9 @@ for folder_name in os.listdir(main_folder_path):
             # Check if the file is an image or JSON
             if file_extension.lower() == '.jpg' or file_extension.lower() == '.jpeg':
                 new_image_name = f"{folder_name}{image_index}{file_extension}"
-                new_image_path = os.path.join(folder_path, new_image_name)
+                new_image_path = os.path.join(new_folder_path, new_image_name)
                 
-                os.rename(file_path, new_image_path)
+                shutil.copyfile(file_path, new_image_path)
                 print(f"Renamed image: {file_path} -> {new_image_path}")
 
                 # takes the first part of the string
@@ -48,7 +52,7 @@ for folder_name in os.listdir(main_folder_path):
             # elif file_extension.lower() == '.json':
 
                 new_file_name = f"{folder_name}{image_index}.json"
-                new_json_path = os.path.join(folder_path, new_file_name)
+                new_json_path = os.path.join(new_folder_path, new_file_name)
                 print (new_json_path)
                 # load the json in and define the new file path
                 # Load COCO annotations from a JSON file, will open and close the file separately
@@ -57,7 +61,7 @@ for folder_name in os.listdir(main_folder_path):
                 # rename the image path in the json to the new file name as well so they match
                 new_json["imagePath"] = new_image_name
                 del new_json['imageData']
-                
+
                 # dump and save the new json
                 with open(new_json_path, 'w') as new_json_file:
                     json.dump (new_json, new_json_file)
@@ -66,20 +70,20 @@ for folder_name in os.listdir(main_folder_path):
 
                 image_index += 1
 
-# # Copying all the jsons and images from each subfolder into a whole new folder with all jsons and jpgs
-main_folder_path = '/home/sicily/bird-detector/bird-detect3/yolo_data'
-output_folder_path = '/home/sicily/bird-detector/bird-detect3/melted_data'
+# # # # Copying all the jsons and images from each subfolder into a whole new folder with all jsons and jpgs
+# # main_folder_path = '/home/sicily/bird-detector/bird-detect3/yolo_data'
+# # output_folder_path = '/home/sicily/bird-detector/bird-detect3/melted_data'
 
-for folder_name in os.listdir(main_folder_path):
-    folder_path = os.path.join(main_folder_path, folder_name)
-    if os.path.isdir(folder_path):
-        for file_name in os.listdir(folder_path):
-            file_base_name, file_extension = os.path.splitext(file_name)
-            if file_extension.lower() in ['.jpg', '.jpeg', '.png', '.gif', '.json']:
-                source_path = os.path.join(folder_path, file_name)
-                destination_path = os.path.join(output_folder_path, file_name)
-                if not os.path.exists(destination_path):
-                    shutil.copy2(source_path, destination_path)
-                    print(f"Copied: {source_path} -> {destination_path}")
-                else:
-                    print(f"File already exists: {destination_path}")
+# # for folder_name in os.listdir(main_folder_path):
+# #     folder_path = os.path.join(main_folder_path, folder_name)
+# #     if os.path.isdir(folder_path):
+# #         for file_name in os.listdir(folder_path):
+# #             file_base_name, file_extension = os.path.splitext(file_name)
+# #             if file_extension.lower() in ['.jpg', '.jpeg', '.png', '.gif', '.json']:
+# #                 source_path = os.path.join(folder_path, file_name)
+# #                 destination_path = os.path.join(output_folder_path, file_name)
+# #                 if not os.path.exists(destination_path):
+# #                     shutil.copy2(source_path, destination_path)
+# #                     print(f"Copied: {source_path} -> {destination_path}")
+# #                 else:
+# #                     print(f"File already exists: {destination_path}")

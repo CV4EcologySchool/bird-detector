@@ -20,11 +20,11 @@ import json
 
 # rename the jsons and the images
 main_folder_path = '/home/sicily/bird-detector/bird-detect3/yolo_data'
-new_folder_path = '/home/sicily/bird-detector/bird-detect3/yolo_copy_try'
+new_base_folder_path  = '/home/sicily/bird-detector/bird-detect3/yolo_copy_try'
 
 for folder_name in os.listdir(main_folder_path):
     folder_path = os.path.join(main_folder_path, folder_name)
-    new_folder_path = os.path.join (new_folder_path, folder_name)
+    new_folder_path = os.path.join (new_base_folder_path, folder_name)
 
     os.mkdir (new_folder_path)
 

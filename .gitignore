@@ -5,3 +5,7 @@ melted_data
 yolo_try_again
 bird-detect3
 yolo
+datasets
+runs/
+
+# the runs folder

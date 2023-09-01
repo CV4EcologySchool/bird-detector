@@ -7,7 +7,7 @@ mode: train  # (str) YOLO mode, i.e. train, val, predict, export, track, benchma
 # Train settings -------------------------------------------------------------------------------------------------------
 model: yolov8s.pt # (str, optional) path to model file, i.e. yolov8n.pt, yolov8n.yaml
 data: dataset.yaml # (str, optional) path to data file, i.e. coco128.yaml
-epochs: 20  # (int) number of epochs to train for
+epochs: 5  # (int) number of epochs to train for, was just 20 before
 patience: 50  # (int) epochs to wait for no observable improvement for early stopping of training
 batch: 110 # (int) number of images per batch (-1 for AutoBatch)
 imgsz: 1088  # (int | list) input images size as int for train and val modes, or list[w,h] for predict and export modes
@@ -114,9 +114,7 @@ cfg:  # (str, optional) for overriding defaults.yaml
 # Tracker settings ------------------------------------------------------------------------------------------------------
 tracker: botsort.yaml  # (str) tracker type, choices=[botsort.yaml, bytetrack.yaml]
 
-# CometML
-# Comet ML experiment saving details
-experiment_name: bird_detector_round1
-# add the scheduler step
-project_name: cagedbird-classifier
-api_key: 6D79SKeAIuSjteySwQwqx96nq
+# config.yaml
+comet_ml:
+  api_key: "YOUR_API_KEY"
+  project_name: "your-project"

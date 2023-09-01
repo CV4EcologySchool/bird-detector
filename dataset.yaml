@@ -1,4 +1,4 @@
-path: /home/sicily/bird-detector/data/datasets/bird-detect  # dataset root dir
+path: /home/sicily/bird-detector/datasets/first_classes  # dataset root dir
 train: train 
 val: val  
 test: 

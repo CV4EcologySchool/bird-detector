@@ -1,48 +1,55 @@
 import os
 import ultralytics
-import matplotlib.pyplot as plt
+from ultralytics import YOLO
+import yaml
+from PIL import Image
 
 # Create an Ultralytics YOLOv8 model
-model = ultralytics.YOLO('yolov8n-seg.pt')
+model = ultralytics.YOLO('/home/sicily/bird-detector/yolov8s.pt')
 
 # Folder containing images
-image_folder = 'path/to/your/image/folder'
+image_folder = '/home/sicily/bird-detector/bird-detect3/bc_hanging_parrot_test'
 
 # Output folder for saving prediction results
 output_folder = 'output_results'
 
-# Create the output folder if it doesn't exist
-os.makedirs(output_folder, exist_ok=True)
+
+# Load experiment config
+cfg = ultralytics.cfg.get_cfg(cfg='default.yaml')
+
+# Create YOLO model and load the trained weights
+model = YOLO(cfg.model)
+model.load("/home/sicily/bird-detector/yolov8s.pt")  # Replace with the path to your trained weights file
+
+# Specify the folder containing unseen images
+image_folder = '/home/sicily/bird-detector/bird-detect3/bc_hanging_parrot_test'
 
 # List all image files in the folder
 image_files = [f for f in os.listdir(image_folder) if f.endswith('.jpg') or f.endswith('.png')]
 
-# Lists to store metrics
-mAP_values = []
+# Specify the output folder for saving prediction results
+output_folder = 'prediction_results'
 
-# Loop through images and perform object detection
+# Create the output folder if it doesn't exist
+os.makedirs(output_folder, exist_ok=True)
+
+# Process each unseen image
 for image_file in image_files:
     image_path = os.path.join(image_folder, image_file)
 
+    # Open the unseen image using PIL
+    image = Image.open(image_path)
+
     # Perform object detection on the image
-    results = model.predict(source=image_path, imgsz=320)
+    results_pred = model.predict(source=image, imgsz=320)
 
-    # Save prediction results to the output folder
-    output_path = os.path.join(output_folder, f'{os.path.splitext(image_file)[0]}.txt')
-    results.save(output_path)
+    # Save bounding box information for each image individually
+    with open(os.path.join(output_folder, f'{os.path.splitext(image_file)[0]}.txt'), 'w') as output_file:
+        for det in results_pred.xyxy[0]:
+            label = int(det[5])  # Class label
+            confidence = det[4]  # Confidence score
+            x1, y1, x2, y2 = det[:4]  # Bounding box coordinates
+            # Save bounding box information to the output file
+            output_file.write(f"{label} {confidence} {x1} {y1} {x2} {y2}\n")
 
-    # Append mAP value to the list
-    mAP = results.metrics[0]['AP']['all']
-    mAP_values.append(mAP)
-
-    print(f"Saved prediction results for {image_file} to {output_path}")
-
-# Plotting
-plt.figure(figsize=(10, 6))
-plt.bar(image_files, mAP_values, color='blue')
-plt.xlabel('Image')
-plt.ylabel('mAP')
-plt.title('mAP Scores for Object Detection')
-plt.xticks(rotation=45, ha='right')
-plt.tight_layout()
-plt.show()
+    print(f"Saved prediction results for {image_file}")

@@ -34,6 +34,7 @@ output_folder = 'prediction_results'
 os.makedirs(output_folder, exist_ok=True)
 
 # Process each unseen image
+# Process each unseen image
 for image_file in image_files:
     image_path = os.path.join(image_folder, image_file)
 
@@ -41,15 +42,17 @@ for image_file in image_files:
     image = Image.open(image_path)
 
     # Perform object detection on the image
-    results_pred = model.predict(source=image, imgsz=320)
+    results_pred = model(image)
 
     # Save bounding box information for each image individually
     with open(os.path.join(output_folder, f'{os.path.splitext(image_file)[0]}.txt'), 'w') as output_file:
-        for det in results_pred.xyxy[0]:
-            label = int(det[5])  # Class label
-            confidence = det[4]  # Confidence score
-            x1, y1, x2, y2 = det[:4]  # Bounding box coordinates
+        for det in results_pred.pred[0]:
+            label, confidence, x1, y1, x2, y2 = det.tolist()
             # Save bounding box information to the output file
-            output_file.write(f"{label} {confidence} {x1} {y1} {x2} {y2}\n")
+            output_file.write(f"{int(label)} {confidence} {x1} {y1} {x2} {y2}\n")
 
     print(f"Saved prediction results for {image_file}")
+# This script should correctly access and save the bounding box information for each detected object in the specified output folder.
+
+
+
